@@ -11,6 +11,9 @@ export KCONFIG_CONFIG
 menuconfig:
 	cd $(KCONFIG_PATH) && $(MAKE) menuconfig
 	$(KCONFIG_PATH)/scripts/kconfig/mconf $(KCONFIG_FILENAME)
+ifdef KCONFIG_OUTPUT_CMAKE
+	cat $(KCONFIG_CONFIG)|sed 's/^\([^=]*\)=\(.*\)/set ( \1 \2 )/' > $(KCONFIG_OUTPUT_CMAKE)
+endif
 xconfig:
 	cd $(KCONFIG_PATH)/ && $(MAKE) xconfig
 	$(KCONFIG_PATH)/scripts/kconfig/qconf $(KCONFIG_FILENAME)
